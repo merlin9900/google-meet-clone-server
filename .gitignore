@@ -24,37 +24,3 @@ out/
 
 # TypeScript cache
 *.tscache
-
-# Test coverage reports
-coverage/
-
-# IDE/editor specific files
-.vscode/
-.idea/
-.DS_Store
-*.sublime-project
-*.sublime-workspace
-
-# Ignore these if using Storybook
-storybook-static/
-
-# Optional: if you're using specific tools
-.next/
-.nuxt/
-.terraform/
-.serverless/
-
-# Optional: MacOS-specific files
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Thumbnails
-._*
-
-# Ignore the following if you have sensitive information
-secrets/
-
-# Optional: VS Code settings folder
-.vscode/
-.vscode-test/
