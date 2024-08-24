@@ -1,6 +1,5 @@
 import http from "http";
 import { Server as SocketIOServer, Socket } from "socket.io";
-import { config } from "./config/config";
 
 interface Room {
    socketId: string;
@@ -24,28 +23,28 @@ const rooms: Rooms = {};
 
 io.on("connection", (socket: Socket) => {
    console.log("connected", socket.id);
-   
-    socket.on("create-room", ({ roomId }) => {
-        console.log("create-room", { roomId });
-        rooms[roomId] = [];
-    })
-    
+
+   socket.on("create-room", ({ roomId }) => {
+      console.log("create-room", { roomId });
+      rooms[roomId] = [];
+   });
+
    // socket.on(
    //    "join-room",
    //    ({ roomId }: { roomId: string }) => {
    //      if(!rooms[roomId]) {
    //       console.log("no room");
-         
+
    //       io.to(socket.id).emit("no-room")
    //       return;
    //      }
 
    //      console.log("hello", rooms[roomId]);
-        
+
    //       if (rooms[roomId].length < 2 && !rooms[roomId].find((user) => user.socketId === socket.id)) {
    //          rooms[roomId].push({ socketId: socket.id });
    //          console.log("pushed", rooms[roomId]);
-            
+
    //       }
 
    //       if (rooms[roomId].length === 2) {
@@ -88,7 +87,6 @@ io.on("connection", (socket: Socket) => {
       }
    });
 
-
    socket.on(
       "offer",
       ({
@@ -101,15 +99,15 @@ io.on("connection", (socket: Socket) => {
          signal: any;
       }) => {
          console.log("offer", { roomId, from });
-         
+
          const room = rooms[roomId];
          console.log(room);
-         
+
          if (room) {
             room.forEach(({ socketId }) => {
                if (socketId !== from) {
                   console.log("offer", { signal });
-                  
+
                   io.to(socketId).emit("offer", { signal });
                }
             });
@@ -145,7 +143,7 @@ io.on("connection", (socket: Socket) => {
       ({ roomId, from }: { roomId: string; from: string }) => {
          const room = rooms[roomId];
          if (room) {
-            room.forEach(({  socketId }) => {
+            room.forEach(({ socketId }) => {
                if (socketId !== from) {
                   io.to(socketId).emit("call-accepted", { socketId });
                }
@@ -158,7 +156,7 @@ io.on("connection", (socket: Socket) => {
       "end-call",
       ({ roomId, from }: { roomId: string; from: string }) => {
          console.log("call ended");
-         
+
          const room = rooms[roomId];
          if (room) {
             room.forEach(({ socketId }) => {
@@ -186,7 +184,7 @@ io.on("connection", (socket: Socket) => {
       }) => {
          const room = rooms[roomId];
          if (room) {
-            room.forEach(({  socketId }) => {
+            room.forEach(({ socketId }) => {
                if (socketId !== from) {
                   io.to(socketId).emit("audio-toggled", { isOn });
                }
@@ -229,7 +227,6 @@ io.on("connection", (socket: Socket) => {
    });
 });
 
-socketServer.listen(config.server.port, () => {
-    console.log("Server started on port 1110");
-    
+socketServer.listen(3000, () => {
+   console.log("Server started on port 3000");
 });

@@ -24,3 +24,4 @@ out/
 
 # TypeScript cache
 *.tscache
+.vercel
