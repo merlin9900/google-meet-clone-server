@@ -228,7 +228,7 @@ io.on("connection", (socket: Socket) => {
 });
 
 
-socketServer.listen(3000, "0.0.0.0", () => {
+socketServer.listen(1100, "0.0.0.0", () => {
    console.log("Server started on port 1100");
 });
 
