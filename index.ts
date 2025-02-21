@@ -1,6 +1,9 @@
 import http from "http";
 import { Server as SocketIOServer, Socket } from "socket.io";
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 interface Room {
   socketId: string;
   userId: string;
@@ -10,7 +13,15 @@ interface Rooms {
   [roomId: string]: Room[];
 }
 
-const socketServer = http.createServer();
+const socketServer = http.createServer((req, res) => {
+  if (req.method === "GET" && req.url === "/") {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end("Google Meet Clone Server is Running! 🚀");
+  } else {
+    res.writeHead(404, { "Content-Type": "text/plain" });
+    res.end("Not Found");
+  }
+});
 
 const io = new SocketIOServer(socketServer, {
   cors: {
@@ -196,6 +207,8 @@ io.on("connection", (socket: Socket) => {
   });
 });
 
-socketServer.listen(1100, "0.0.0.0", () => {
-  console.log("Server started on port 1100");
+const PORT = process.env.PORT ?? 5000;
+
+socketServer.listen(PORT, () => {
+  console.log("Server started on port", PORT);
 });
